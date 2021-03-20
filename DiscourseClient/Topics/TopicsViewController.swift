@@ -13,12 +13,20 @@ import SnapKit
 class TopicsViewController: UIViewController {
 
     lazy var tableHeader = TableHeaderView()
+
+    lazy var refresh: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        return refreshControl
+    }()
     
     lazy var tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
         table.translatesAutoresizingMaskIntoConstraints = false
         table.dataSource = self
         table.delegate = self
+        table.refreshControl = refresh
         table.tableHeaderView = tableHeader
         table.tableHeaderView?.frame.size.height = 150
         table.register(TopicCell.self, forCellReuseIdentifier: TopicCell.identifier)
@@ -79,6 +87,10 @@ class TopicsViewController: UIViewController {
         // Add search functionality
     }
 
+    @objc func refresh(_ sender: AnyObject) {
+        viewModel.viewWasLoaded()
+    }
+
     fileprivate func showErrorFetchingTopicsAlert() {
         let alertMessage: String = NSLocalizedString("Error fetching topics\nPlease try again later", comment: "")
         showAlert(alertMessage)
@@ -112,7 +124,9 @@ extension TopicsViewController: UITableViewDelegate {
 }
 
 extension TopicsViewController: TopicsViewDelegate {
+
     func topicsFetched() {
+        refresh.endRefreshing()
         tableView.reloadData()
     }
 
