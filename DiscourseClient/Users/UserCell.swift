@@ -38,14 +38,14 @@ class UserCell: UICollectionViewCell {
         contentView.addSubviews(userImage, userText)
         userImage.snp.makeConstraints { make in
             make.size.equalTo(80)
-            make.top.equalToSuperview().priority(.medium)
+            make.top.equalToSuperview()
             make.centerX.equalToSuperview()
         }
 
         userText.snp.makeConstraints { make in
             make.top.equalTo(userImage.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.bottom.greaterThanOrEqualToSuperview()
         }
     }
 

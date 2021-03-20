@@ -56,6 +56,13 @@ class UsersViewController: UIViewController {
     }
 
     private func setupNavigationController() {
+        let navBarAppearance = UINavigationBarAppearance()
+           navBarAppearance.configureWithOpaqueBackground()
+           navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+           navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
+        navigationController?.navigationBar.isTranslucent = false
+           navigationController?.navigationBar.standardAppearance = navBarAppearance
+           navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
         navigationController?.navigationBar.prefersLargeTitles = true
         let leftBarButtonItem: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icoAdd"), style: .plain, target: self, action: #selector(plusButtonTapped))
         let rightBarButtonItem: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icoSearch"), style: .plain, target: self, action: #selector(searchButtonTapped))
